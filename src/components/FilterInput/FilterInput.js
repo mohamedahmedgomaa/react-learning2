@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import styles from "./Filter.module.css";
+import styles from "./FilterInput.module.css";
 
 const Filter = ({ filteration }) => {
     const [filter, setFilter] = useState("");

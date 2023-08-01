@@ -1,8 +1,11 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import styles from "./App.module.css";
 import CardList from "../components/CardList/CardList";
-import Filter from "../components/Filter/Filter";
+import FilterInput from "../components/FilterInput/FilterInput";
 import Model from "../components/Model/Model";
+import Button from "../components/Layout/Button";
+import Row from "../components/Layout/Row";
+import AddUser from "../components/AddUser/AddUser";
 
 const App = () => {
     // const inputEl = useRef(null);
@@ -41,6 +44,23 @@ const App = () => {
         },
     ]);
 
+    const addNewUserHandler = (data) => {
+        setState((prevState) => {
+            return [
+              ...prevState,
+                {
+                    id: prevState.length + 1,
+                    name: data.name,
+                    age: data.age,
+                    address: data.address,
+                    phone: data.phone,
+                    type: data.type
+                }
+            ];
+        });
+        // setShowModel(false);
+    }
+
     const deleteHandler = (e, selectedID) => {
         setState((prevState) => {
             return prevState.filter((el) => el.id !== selectedID);
@@ -57,30 +77,50 @@ const App = () => {
         return state;
     }
 
-    return <div className={styles.mainContainer}>
+    return (
+        <Fragment>
+            <Row className={styles.mainContainer}>
 
-        <Model show={showModel} closeModel={() => setShowModel(false)}/>
+                <h1>List of Data</h1>
+                <Row style={{display: "flex", marginBottom: "10px"}}>
+                    {/* new button */}
+                    <Button
+                        style={{marginRight: "20px"}}
+                        onClick={() => setCardToggle(!cardToggle)}
+                    >
+                        {cardToggle ? "Hide Names" : "Show Names"}
+                    </Button>
 
-        <h1>List of Data</h1>
-        <div style={{display:"flex", marginBottom: "10px"}}>
-        <button style={{marginRight: "20px"}} className={styles.button}
-                onClick={() => setCardToggle(!cardToggle)}>{cardToggle ? "Hide Names" : "Show Names"}</button>
+                    {/*<button style={{marginRight: "20px"}} className={styles.button}*/}
+                    {/*        onClick={() => setCardToggle(!cardToggle)}>{cardToggle ? "Hide Names" : "Show Names"}</button>*/}
 
-        <button style={{marginRight: "20px"}} className={styles.button} onClick={() => setShowModel(true)}>New Record</button>
-        </div>
-        <div className={cardToggle ? styles.show : styles.hide}>
+                    {/*<button style={{marginRight: "20px"}} className={styles.button} onClick={() => setShowModel(true)}>*/}
+                    {/*    New Record*/}
+                    {/*</button>*/}
 
-            <Filter filteration={filterNames}/>
-            {/*<input type="text" placeholder="for test ref" ref={inputEl} onChange={testHandler}/>*/}
-            {/*<button style={{marginBottom: "20px"}} onClick={onclick}>click</button>*/}
-            <CardList
-                namesList={namesHandler()}
-                type="men"
-                deleteHandler={deleteHandler}
-            />
+                    <Button style={{marginRight: "20px"}} onClick={() => setShowModel(true)}>
+                        New Record
+                    </Button>
+                </Row>
+                <Row className={cardToggle ? styles.show : styles.hide}>
 
-        </div>
-    </div>;
+                    <FilterInput filteration={filterNames}/>
+                    {/*<input type="text" placeholder="for test ref" ref={inputEl} onChange={testHandler}/>*/}
+                    {/*<button style={{marginBottom: "20px"}} onClick={onclick}>click</button>*/}
+                    <CardList
+                        namesList={namesHandler()}
+                        type="men"
+                        deleteHandler={deleteHandler}
+                    />
+
+                </Row>
+            </Row>
+
+            <Model show={showModel} closeModel={() => setShowModel(false)}>
+                <AddUser addNewUserHandler={addNewUserHandler} closeModel={() => setShowModel(false)}/>
+            </Model>
+        </Fragment>
+    );
 }
 
 export default App;
