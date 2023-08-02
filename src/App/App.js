@@ -45,19 +45,20 @@ const App = () => {
     ]);
 
     const addNewUserHandler = (data) => {
-        setState((prevState) => {
-            return [
-              ...prevState,
-                {
-                    id: prevState.length + 1,
-                    name: data.name,
-                    age: data.age,
-                    address: data.address,
-                    phone: data.phone,
-                    type: data.type
-                }
-            ];
-        });
+        // setState((prevState) => {
+        //     return [
+        //       ...prevState,
+        //         {
+        //             id: prevState.length + 1,
+        //             name: data.name,
+        //             age: data.age,
+        //             address: data.address,
+        //             phone: data.phone,
+        //             type: data.type
+        //         }
+        //     ];
+        // });
+        setState((prevState) => [...prevState , data]);
         // setShowModel(false);
     }
 
